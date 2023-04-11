@@ -31,7 +31,7 @@ public class lab_skeleton : MonoBehaviour
         44: 'RightHandPinky1', 45: 'RightHandPinky2', 46: 'RightHandPinky3'
     }
     */
-    public static string coordinate_txt_path = @"/Lab_skeleton2unity_with_finger/Assets/Motion data/1075@014_withfinger.txt";
+    public static string coordinate_txt_path = @"Assets/Motion data/1075@014_withfinger.txt";
     public static string[] coordinate_lines = File.ReadAllLines(coordinate_txt_path);
     public static Vector3[,] coordinate_list = new Vector3[coordinate_lines.Length, 47];
 
