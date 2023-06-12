@@ -7,96 +7,66 @@ using System.Threading;
 using Bones_controller;
 using static lab_skeleton;
 using static Rotation_controller;
+using static HumanBodyTransform;
 
 public class unity_humanbones : MonoBehaviour
 {
-    lab_skeleton Lab_skeleton = new lab_skeleton();
+    // lab_skeleton Lab_skeleton = new lab_skeleton();
     Rotation_controller rotation_controller = new Rotation_controller();
     Bone_controller Controller = new Bone_controller();
 
-    Animator animation;
+    lab_skeleton Lab_skeleton1 = new lab_skeleton();
+    lab_skeleton Lab_skeleton2 = new lab_skeleton();
+    lab_skeleton Lab_skeleton3 = new lab_skeleton();
 
-    // torso
-    public static Transform Head;
-    public static Transform Neck;
-    public static Transform Spine;
-	public static Transform Hip;
+    static public GameObject GT;
+    static public GameObject Frag_ori;
+    static public GameObject Frag;
 
-    // Left hand
-    public static Transform L_Shoulder;
-    public static Transform L_Elbow;
-    public static Transform L_Hand;
-    public static Transform L_Toe;
-    public static Transform L_Ring;
-    public static Transform L_Index;
-
-    // Left leg
-    public static Transform L_Hip;
-    public static Transform L_Knee;
-    public static Transform L_Foot;
-
-    // Right hand
-    public static Transform R_Shoulder;
-    public static Transform R_Elbow;
-    public static Transform R_Hand;
-    public static Transform R_Toe;
-    public static Transform R_Ring;
-    public static Transform R_Index;
-
-    // Right leg
-    public static Transform R_Hip;
-    public static Transform R_Knee;
-    public static Transform R_Foot;
+    HumanBodyTransform HumanBodyTransform1; 
+    HumanBodyTransform HumanBodyTransform2;
+    HumanBodyTransform HumanBodyTransform3; 
 
     int count = 0;
 
-    // Start is called before the first frame update
     void Start()
     {
         // Set update fps: 10
-        Application.targetFrameRate = 10;
-        animation = GetComponent<Animator>();
+        Application.targetFrameRate = 12;
 
-        Head = animation.GetBoneTransform(HumanBodyBones.Head);
-        Neck = animation.GetBoneTransform(HumanBodyBones.Neck);
-        Spine = animation.GetBoneTransform(HumanBodyBones.Spine);
-		Hip = animation.GetBoneTransform(HumanBodyBones.Hips);
+        Lab_skeleton1.txt_reader(@"Assets/Motion Data/s_09_act_02_subact_01_ca_03_ori.txt");
+        Lab_skeleton2.txt_reader(@"Assets/Motion Data/s_09_act_02_subact_01_ca_03_frag_ori.txt");
+        Lab_skeleton3.txt_reader(@"Assets/Motion Data/s_09_act_02_subact_01_ca_03_frag.txt");
 
-        L_Shoulder = animation.GetBoneTransform(HumanBodyBones.LeftUpperArm);
-        L_Elbow = animation.GetBoneTransform(HumanBodyBones.LeftLowerArm);
-        L_Hand = animation.GetBoneTransform(HumanBodyBones.LeftHand);
-        L_Toe = animation.GetBoneTransform(HumanBodyBones.LeftToes);
-        L_Ring = animation.GetBoneTransform(HumanBodyBones.LeftRingProximal);
-        L_Index = animation.GetBoneTransform(HumanBodyBones.LeftIndexProximal);
+        Frag = GameObject.Find("Frag");
+        Frag_ori = GameObject.Find("Frag_ori");
+        GT = GameObject.Find("GT");
 
-        L_Hip = animation.GetBoneTransform(HumanBodyBones.LeftUpperLeg);
-        L_Knee = animation.GetBoneTransform(HumanBodyBones.LeftLowerLeg);
-        L_Foot = animation.GetBoneTransform(HumanBodyBones.LeftFoot);
+        HumanBodyTransform1 = new HumanBodyTransform(GT.GetComponent<Animator>());
+        HumanBodyTransform2 = new HumanBodyTransform(Frag_ori.GetComponent<Animator>());
+        HumanBodyTransform3 = new HumanBodyTransform(Frag.GetComponent<Animator>()); 
 
-        R_Shoulder = animation.GetBoneTransform(HumanBodyBones.RightUpperArm);
-        R_Elbow = animation.GetBoneTransform(HumanBodyBones.RightLowerArm);
-        R_Hand = animation.GetBoneTransform(HumanBodyBones.RightHand);
-        R_Toe = animation.GetBoneTransform(HumanBodyBones.RightToes);
-        R_Ring = animation.GetBoneTransform(HumanBodyBones.RightRingProximal);
-        R_Index = animation.GetBoneTransform(HumanBodyBones.RightIndexProximal);
-
-        R_Hip = animation.GetBoneTransform(HumanBodyBones.RightUpperLeg);
-        R_Knee = animation.GetBoneTransform(HumanBodyBones.RightLowerLeg);
-        R_Foot = animation.GetBoneTransform(HumanBodyBones.RightFoot);
-
-        // initial data
-        Lab_skeleton.txt_reader();
     }
-    // Update is called once per frame
+    
     void Update()
     {
-        if (count < lab_skeleton.coordinate_list.Length)
-        {   
-            Hip.localEulerAngles = new Vector3(0, 0, 0);
-            Hip.Rotate(Controller.Hip_rotation(lab_skeleton.coordinate_list[count, 12], lab_skeleton.coordinate_list[count, 9]).eulerAngles, Space.World);
-            rotation_controller.Lab_Rotation(count);
-        }
+        // Update the bones for each lab_skeleton instance
+        UpdateBones(Lab_skeleton1, HumanBodyTransform1);
+        UpdateBones(Lab_skeleton2, HumanBodyTransform2);
+        UpdateBones(Lab_skeleton3, HumanBodyTransform3);
         count += 1;
+    }
+
+    void UpdateBones(lab_skeleton labSkeleton, HumanBodyTransform humanbodytransform)
+    {
+        if (count < labSkeleton.coordinate_list.Length)
+        {
+            // Apply bone transformations based on the coordinate list
+            humanbodytransform.Hip.localEulerAngles = new Vector3(0, 0, 0);
+            humanbodytransform.Hip.Rotate(Controller.Hip_rotation(labSkeleton.coordinate_list[count, 12], labSkeleton.coordinate_list[count, 9]).eulerAngles, Space.World);
+            rotation_controller.Lab_Rotation(count, labSkeleton, humanbodytransform);
+        }
     }
     
 }
+

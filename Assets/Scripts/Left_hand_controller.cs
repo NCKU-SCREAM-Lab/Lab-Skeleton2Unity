@@ -9,22 +9,22 @@ public class Left_hand_controller
 {
     Bone_controller Controller = new Bone_controller();
 
-    public void Lab_Left_hand_Rotation_controller(int frame)
+    public void Lab_Left_hand_Rotation_controller(int frame, lab_skeleton labSkeleton, HumanBodyTransform humanbodytransform)
     {
         // Left Shoulder Rotation
-        unity_humanbones.L_Shoulder.Rotate(Controller.L_Shoulder_rotation(
-            lab_skeleton.coordinate_list[frame, 5], 
-            lab_skeleton.coordinate_list[frame, 6], 
-            unity_humanbones.L_Elbow, 
-            unity_humanbones.L_Shoulder
+        humanbodytransform.L_Shoulder.Rotate(Controller.L_Shoulder_rotation(
+            labSkeleton.coordinate_list[frame, 5], 
+            labSkeleton.coordinate_list[frame, 6], 
+            humanbodytransform.L_Elbow, 
+            humanbodytransform.L_Shoulder
             ).eulerAngles, Space.World);
 
         // Left Elbow Rotation
-        unity_humanbones.L_Elbow.Rotate(Controller.L_Elbow_rotation(
-            lab_skeleton.coordinate_list[frame, 6], 
-            lab_skeleton.coordinate_list[frame, 7], 
-            unity_humanbones.L_Hand, 
-            unity_humanbones.L_Elbow
+        humanbodytransform.L_Elbow.Rotate(Controller.L_Elbow_rotation(
+            labSkeleton.coordinate_list[frame, 6], 
+            labSkeleton.coordinate_list[frame, 7], 
+            humanbodytransform.L_Hand, 
+            humanbodytransform.L_Elbow
             ).eulerAngles, Space.World);
     }
 }

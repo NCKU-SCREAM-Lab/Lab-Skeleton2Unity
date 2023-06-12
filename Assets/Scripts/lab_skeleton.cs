@@ -20,12 +20,16 @@ public class lab_skeleton : MonoBehaviour
         10: R_knee, 11: R_foot, 12: L_hip, 13: L_knee, 14: L_foot,
     }
     */
-    public static string coordinate_txt_path = @"Assets/Motion Data/S09_03_01_0926_V3_Human36M_train_angle_01_2010.txt";
-    public static string[] coordinate_lines = File.ReadAllLines(coordinate_txt_path);
-    public static Vector3[,] coordinate_list = new Vector3[coordinate_lines.Length, 15];
+    public string coordinate_txt_path;
+    public string[] coordinate_lines;
+    public Vector3[,] coordinate_list;
 
-    public void txt_reader()
+    public void txt_reader(string filePath)
     {
+        coordinate_txt_path = filePath;
+        coordinate_lines = File.ReadAllLines(coordinate_txt_path);
+        coordinate_list = new Vector3[coordinate_lines.Length, 15];
+
         int count = 0;
         int sub_count = 0;
         foreach (var item in coordinate_lines)

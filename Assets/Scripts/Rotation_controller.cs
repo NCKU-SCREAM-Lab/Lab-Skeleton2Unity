@@ -17,21 +17,21 @@ public class Rotation_controller
     Left_leg_controller l_leg_rotation = new Left_leg_controller();
     Right_leg_controller r_leg_rotation = new Right_leg_controller();
 
-    public void Lab_Rotation(int frame)
+    public void Lab_Rotation(int frame, lab_skeleton labSkeleton, HumanBodyTransform humanbodytransform)
     {
         // Torso
-        torso.Lab_Torso_Rotation_controller(frame);
+        torso.Lab_Torso_Rotation_controller(frame, labSkeleton, humanbodytransform);
 
         // Left hand
-        l_hand_rotation.Lab_Left_hand_Rotation_controller(frame);
+        l_hand_rotation.Lab_Left_hand_Rotation_controller(frame, labSkeleton, humanbodytransform);
 
         // Right hand
-        r_hand_rotation.Lab_Right_hand_Rotation_controller(frame);
+        r_hand_rotation.Lab_Right_hand_Rotation_controller(frame, labSkeleton, humanbodytransform);
 
         // Left foot
-        l_leg_rotation.Lab_Left_leg_Rotation_controller(frame);
+        l_leg_rotation.Lab_Left_leg_Rotation_controller(frame, labSkeleton, humanbodytransform);
 
         // Right foot
-        r_leg_rotation.Lab_Right_leg_Rotation_controller(frame);
+        r_leg_rotation.Lab_Right_leg_Rotation_controller(frame, labSkeleton, humanbodytransform);
     }
 }

@@ -10,18 +10,18 @@ public class Torso_controller
 {
     public Bone_controller Controller = new Bone_controller();
 
-    public void Lab_Torso_Rotation_controller(int frame)
+    public void Lab_Torso_Rotation_controller(int frame, lab_skeleton labSkeleton, HumanBodyTransform humanbodytransform)
     {
         // Spine Rotation
-        unity_humanbones.Spine.Rotate(Controller.Spine_rotation(
-            lab_skeleton.coordinate_list[frame, 12], 
-            lab_skeleton.coordinate_list[frame, 9], 
-            lab_skeleton.coordinate_list[frame, 5], 
-            lab_skeleton.coordinate_list[frame, 2], 
-            unity_humanbones.L_Shoulder, 
-            unity_humanbones.R_Shoulder, 
-            unity_humanbones.L_Hip, 
-            unity_humanbones.R_Hip
+        humanbodytransform.Spine.Rotate(Controller.Spine_rotation(
+            labSkeleton.coordinate_list[frame, 12], 
+            labSkeleton.coordinate_list[frame, 9], 
+            labSkeleton.coordinate_list[frame, 5], 
+            labSkeleton.coordinate_list[frame, 2], 
+            humanbodytransform.L_Shoulder, 
+            humanbodytransform.R_Shoulder, 
+            humanbodytransform.L_Hip, 
+            humanbodytransform.R_Hip
             ).eulerAngles, Space.World);
     }
 }
